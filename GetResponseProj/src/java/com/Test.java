@@ -1,5 +1,5 @@
 package com;
 
 public class Test {
-	private String string="";
+	private String string="hello";
 }
