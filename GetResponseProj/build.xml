@@ -1,0 +1,59 @@
+<project name="getresponse" default="build">
+	<description>
+        simple example build file
+    </description>
+
+	<target name="init">
+		<delete dir="temp" />
+		<delete dir="dist" />
+		<mkdir dir="temp" />
+		<mkdir dir="dist" />
+
+		<copy todir="temp/WEB-INF/classes">
+			<fileset dir="bin" includes="**/*.*">
+			</fileset>
+		</copy>
+
+		<copy todir="temp">
+			<fileset dir="web" includes="**/*.*">
+			</fileset>
+		</copy>
+
+		<copy todir="temp/WEB-INF/lib">
+			<fileset dir="lib" includes="**/*.*">
+			</fileset>
+		</copy>
+
+		<copy todir="temp/WEB-INF/">
+			<fileset dir="build" includes="**/*.xml">
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="build" depends="init">
+		<jar destfile="./dist/getresponse.war">
+			<fileset dir="temp">
+			</fileset>
+		</jar>
+	</target>
+
+	<taskdef name="wldeploy" 
+		classname="weblogic.ant.taskdefs.management.WLDeploy" 
+		classpath="C:/Oracle/Middleware/Oracle_Home/wlserver/server/lib/weblogic.jar" />
+
+	<target name="deploy" >
+		<wldeploy action="deploy" name="getResponse" source="./dist/getresponse.war"
+				user="weblogic"
+				password="admin123" 
+				verbose="true"
+				adminurl="t3://localhost:7001"
+				upload="true"
+				targets="AdminServer" />
+	</target>
+
+	<target name="undeploy">
+
+	</target>
+
+</project>
