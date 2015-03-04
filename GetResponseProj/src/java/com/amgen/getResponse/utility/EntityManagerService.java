@@ -63,7 +63,7 @@ public class EntityManagerService {
 			log.debug("getEntityManager111111111().. ");
 		}
 
-		ResourceBundle rb = ResourceBundle.getBundle("getResponse.properties");
+		ResourceBundle rb = ResourceBundle.getBundle("properties.getResponse");
 
 		String driver = rb.getString("db.driver"); 
 		String url = rb.getString("db.url"); 
@@ -79,7 +79,9 @@ public class EntityManagerService {
 		{
 			switch(i)
 			{
-			case 0: emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,prop);
+			case 0: 
+				emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,prop); 
+				break;
 			case 1: emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME_SUB,prop);
 			}
 		} else{
