@@ -12,7 +12,7 @@ import com.amgen.getResponse.entity.campaign.SubscriptionPK;
 import com.amgen.getResponse.utility.EntityManagerService;
 public class campaignDao {
 			public List findUser(int id) throws IOException, SQLException {
-				EntityManager em = EntityManagerService.getEntityManager(1);
+				EntityManager em = EntityManagerService.getEntityManager(0);
 				//Query q = em.createQuery("Select s from Subscription s where s.spk.USER_ID=:id");
 				//q.setParameter("id", id);
 //				Subscription sp = new Subscription();

@@ -74,16 +74,18 @@ public class EntityManagerService {
 		prop.put("hibernate.connection.url",url);
 		prop.put("hibernate.connection.username",username);
 		prop.put("hibernate.connection.password",password);
+		System.out.println(prop);
 
 		if(emFactory ==  null)
 		{
-			switch(i)
-			{
-			case 0: 
+//			switch(i)
+//			{
+//			case 0: 
 				emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,prop); 
-				break;
-			case 1: emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME_SUB,prop);
-			}
+//				break;
+//			case 1:
+//				emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME_SUB,prop);
+//			}
 		} else{
 			// use same instance of emFactory
 		}

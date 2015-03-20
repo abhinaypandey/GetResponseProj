@@ -25,11 +25,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SignatureException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.*;
 
 import javassist.bytecode.Descriptor.Iterator;
 
@@ -66,33 +66,61 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 		
 	}
 	
-	public static void main(String arg[]) throws Exception{
+	private File getLatestFile(File dir){
+		File[] filelist=dir.listFiles();
+		if(filelist==null || filelist.length==0){
+			return null;
+		}
+		
+		File lastModified=filelist[0];
+		for(int i=0;i<filelist.length;i++){
+			if(lastModified.lastModified() < filelist[i].lastModified()){
+				lastModified=filelist[i];
+			}
+		}
+		return lastModified;
+		
+	}
+	
+	private boolean getDelimiterStatus(File latestFile,String currentDelimiter){
+		boolean delimiterStatus=false;
 		try {
-			
-			
-			long timestamp=new Date().getTime();
-			File headerFile=new File("./User_Files/userDataTemplate.txt");
-			InputStreamReader ir=new InputStreamReader(new FileInputStream(headerFile));
-			BufferedReader bf=new BufferedReader(ir);
-			String filePath="./User_Files/userData_"+timestamp+".txt";
-			File file=new File(filePath);
-			
+			Scanner scan=new Scanner(latestFile);
+			String currentLine;
+			while(scan.hasNextLine()){
+				currentLine=scan.nextLine();
+				if(currentLine.contains(currentDelimiter)){
+					delimiterStatus=false;
+					continue;
+				}
+				else
+					delimiterStatus=true;
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return delimiterStatus;
+	}
+	
+	private static void fetchData(File file,String filePath,String delimiter) throws SQLException{
+		try {
 //			FileOutputStream f=new FileOutputStream(file);
-			PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file,true)));
-			String header=bf.readLine();
-			pw.println(header); 
-			
+
+			PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file,true)),true);
+			System.out.println("before em");
 			EntityManager em=EntityManagerService.getEntityManager(0);
+			System.out.println("after em");
 			em.getTransaction().begin();
+			
 			javax.persistence.Query q= em.createQuery("Select o from User o");
+			System.out.println(q);
 			List<User> users=q.getResultList();
 			java.util.Iterator<User> iterator=users.iterator(); 
 			
-			ResourceBundle rc=ResourceBundle.getBundle("properties.delimiter");
-			String delimiter=rc.getString("delimiter");
-			
 			while(iterator.hasNext()){
 				User user=iterator.next();
+				System.out.println(user.getEmail()+user.getFirst_name());
 				pw.print(user.getId()); pw.print(delimiter);
 				pw.print(user.getUsername());pw.print(delimiter);
 				pw.print(user.getFirst_name());pw.print(delimiter);
@@ -104,12 +132,33 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 				
 			}
 			
-			/* Calling EncryptionService to handle data encrytpion and decryption */
-			
+			/* Calling EncryptionService to handle data encryption and decryption */
+		try {
 			EncryptionService test=new EncryptionService(filePath);
-			test.genKeyPair();
-			test.encrypt();
-			test.decrypt();
+			
+				test.genKeyPair();
+				test.encrypt();
+				test.decrypt();
+			} catch (InvalidKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchProviderException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SignatureException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (NoSuchAlgorithmException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (PGPException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 			System.out.println("Data encrypted successfully");
 			
@@ -120,8 +169,73 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+	}
+	
+	public void DataTransfer() throws Exception{
+			
+			DataExchangeServiceImpl dimpl=new DataExchangeServiceImpl();
+			ResourceBundle rc=ResourceBundle.getBundle("properties.delimiter");
+			String delimiter=rc.getString("delimiter");
+			System.out.println("Data transfer called");
+			/*Extracting previous file delimiter from stored files 
+			 * */
+			
+//			String regexp="^\\d$";
+//			Pattern pattern=Pattern.compile(regexp);
+	
+			
+			File dir=new File("./User_Files");
+			String latestFile="";
+			File lastModified=dimpl.getLatestFile(dir);
+//			File[] flist=dir.listFiles();
+//			ArrayList<File> files=new ArrayList<File>();
+//			for(File file:flist){
+//				if(file.isFile()){
+//					files.add(file);
+//				}
+//			}
+//			List<String> filenames=new ArrayList<String>();
+//			Set<String> fileset=new TreeSet<String>(filenames);
+			
+//			for(File f :filelist){
+//				if(f.isFile()){
+//				   
+//					String str=pattern.compile(regexp).matcher(f.getName()).replaceAll("\\D+","");
+//					String num=f.getName().replaceAll("\\D+", "");
+//					if(num.isEmpty()){
+//						continue;
+//					}
+//					else{
+//						fileset.add(f.getName().replaceAll("\\D+", ""));
+//						latestFile=f.getAbsolutePath();
+//					}
+//					
+//					
+//				}
+//			}
+			boolean delimiterStatus = dimpl.getDelimiterStatus(lastModified,delimiter);
+			if(delimiterStatus){
+				System.out.println(delimiterStatus);
+				long timestamp=new Date().getTime();
+				String filePath="./User_Files/userData_"+timestamp+".txt";
+				File headerFile=new File("./User_Files/userDataTemplate.txt");
+				InputStreamReader ir=new InputStreamReader(new FileInputStream(headerFile));
+				BufferedReader bf=new BufferedReader(ir);
+				File file=new File(filePath);
+				PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file)),true);
+				String header=bf.readLine();
+				pw.println(header);
+				pw.close();
+				fetchData(file,filePath,delimiter);
+					
+				
+			}
+			else{
+				System.out.println(delimiterStatus);
+				fetchData(lastModified,lastModified.getAbsolutePath(),delimiter);
+			}
+			
+			
 		
 	}
 

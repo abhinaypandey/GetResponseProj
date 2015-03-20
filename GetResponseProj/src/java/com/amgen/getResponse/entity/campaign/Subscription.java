@@ -5,9 +5,6 @@ import java.util.ArrayList;
 
 import javax.persistence.*;
 
-
-
-
 @Entity
 @Table(name="Subscription")
 //@IdClass(SubscriptionPK.class)

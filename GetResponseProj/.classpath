@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/dom4j-1.6.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/hibernate-annotations-3.4.0.GA.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/hibernate-commons-annotations-3.3.0.ga.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/hibernate-core-3.3.1.GA.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/hibernate-entitymanager-3.4.0.GA.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/j2ee.jar"/>
@@ -23,11 +22,14 @@
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/resolver.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/serializer.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/servlet.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/slf4j-api-1.6.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/slf4j-log4j12-1.6.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/xerces-2.6.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/xercesSamples.jar"/>
 	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/c3p0-0.9.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/quartz-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/quartz-jobs-2.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/slf4j-api-1.6.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/pandabhi/git/GetResponseProj/GetResponseProj/lib/slf4j-log4j12-1.6.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -18,7 +18,7 @@ import com.amgen.getResponse.utility.GetResponseLog;
 import com.amgen.getResponse.utility.GetResponseLoggerFactory;
 
 @Entity
-@Table(name="USER")
+@Table(name="User")
 
 public class User {
 	
@@ -26,18 +26,18 @@ public class User {
 	@GeneratedValue(strategy=GenerationType.AUTO, generator="USER_AUTO")
 	@SequenceGenerator(name="USER_AUTO", sequenceName="USER_AUTO", allocationSize=1)
     private int id;
-	
-	@OneToMany
-	Subscription subscription;
-	
-	
-	public Subscription getSubscription() {
-		return subscription;
-	}
+//	
+//	@OneToMany
+//	Subscription subscription;
+//	
+//	
+//	public Subscription getSubscription() {
+//		return subscription;
+//	}
 
-	public void setSubscription(Subscription subscription) {
-		this.subscription = subscription;
-	}
+//	public void setSubscription(Subscription subscription) {
+//		this.subscription = subscription;
+//	}
 
 	@Column(name="First_Name")
     private  String first_name;

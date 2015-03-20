@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+<web-app id="WebApp_ID" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
   <display-name>GetResponse</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
@@ -10,6 +10,54 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   
+   <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/classes/persistence.xml </param-value>
+  </context-param>
   
+  <servlet>
+    <display-name>GetResponseDelegate</display-name>
+    <servlet-name>GetResponseDelegate</servlet-name>
+    <servlet-class>com.amgen.getResponse.serviceDelegate.GetResponseDelegate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetResponseDelegate</servlet-name>
+    <url-pattern>/GetResponseDelegate</url-pattern>
+  </servlet-mapping>
   
-</web-app>
+  <servlet>
+    <description></description>
+    <display-name>UserAuthentication</display-name>
+    <servlet-name>UserAuthentication</servlet-name>
+    <servlet-class>com.amgen.getResponse.servlet.UserAuthentication</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserAuthentication</servlet-name>
+    <url-pattern>/UserAuthentication</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description></description>
+    <display-name>DataExchangeDelegate</display-name>
+    <servlet-name>DataExchangeDelegate</servlet-name>
+    <servlet-class>com.amgen.getResponse.serviceDelegate.DataExchangeDelegate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DataExchangeDelegate</servlet-name>
+    <url-pattern>/DataExchangeDelegate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<description>Encryption Job</description>
+  	<display-name>CronInitializationServlet</display-name>
+  	<servlet-name>CronInitializationServlet</servlet-name>
+  	<servlet-class>com.amgen.getResponse.service.dataExchange.CronInitializationServlet</servlet-class>
+  	<load-on-startup>1</load-on-startup>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>CronInitializationServlet</servlet-name>
+  	<url-pattern>/CronInitializationServlet</url-pattern>
+  </servlet-mapping>
+  
+  </web-app>

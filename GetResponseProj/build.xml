@@ -44,8 +44,8 @@
 
 	<target name="deploy" >
 		<wldeploy action="deploy" name="getResponse" source="./dist/getresponse.war"
-				user="weblogic"
-				password="admin123" 
+				user="DevDomain"
+				password="abhi94naya" 
 				verbose="true"
 				adminurl="t3://localhost:7001"
 				upload="true"
