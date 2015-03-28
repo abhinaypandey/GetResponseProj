@@ -110,7 +110,6 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 			PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file,true)),true);
 			System.out.println("before em");
 			EntityManager em=EntityManagerService.getEntityManager(0);
-			System.out.println("after em");
 			em.getTransaction().begin();
 			
 			javax.persistence.Query q= em.createQuery("Select o from User o");
@@ -176,7 +175,6 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 			DataExchangeServiceImpl dimpl=new DataExchangeServiceImpl();
 			ResourceBundle rc=ResourceBundle.getBundle("properties.delimiter");
 			String delimiter=rc.getString("delimiter");
-			System.out.println("Data transfer called");
 			/*Extracting previous file delimiter from stored files 
 			 * */
 			

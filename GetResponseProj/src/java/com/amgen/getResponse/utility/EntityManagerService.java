@@ -11,6 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.hibernate.Hibernate;
+import org.hibernate.ejb.HibernateEntityManager;
+
 public class EntityManagerService {
 	/**
 	 * instance variables
@@ -81,7 +84,12 @@ public class EntityManagerService {
 //			switch(i)
 //			{
 //			case 0: 
-				emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,prop); 
+				emFactory =Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME,prop);
+				if(emFactory==null)
+					System.out.println("null");
+				else
+					System.out.println("not null");
+				
 //				break;
 //			case 1:
 //				emFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME_SUB,prop);
