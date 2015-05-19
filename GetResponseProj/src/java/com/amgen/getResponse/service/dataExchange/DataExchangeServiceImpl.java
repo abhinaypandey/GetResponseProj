@@ -9,6 +9,7 @@
  */
 package com.amgen.getResponse.service.dataExchange;
 
+
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -37,14 +38,22 @@ import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.print.attribute.standard.Severity;
 
 import org.bouncycastle.openpgp.PGPException;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.lob.ReaderInputStream;
 
 import com.amgen.getResponse.entity.userProfileManagement.User;
 import com.amgen.getResponse.service.BusinessService;
 import com.amgen.getResponse.utility.EntityManagerService;
+import com.amgen.getResponse.utility.HibernateRepository;
+import com.amgen.getResponse.utility.HibernateUtil;
 import com.amgen.getResponse.service.dataExchange.EncryptionService;
+import com.amgen.getResponse.utility.*;
 
 public class DataExchangeServiceImpl implements DataExchangeService {
 
@@ -109,12 +118,21 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 
 			PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file,true)),true);
 			System.out.println("before em");
-			EntityManager em=EntityManagerService.getEntityManager(0);
-			em.getTransaction().begin();
 			
-			javax.persistence.Query q= em.createQuery("Select o from User o");
-			System.out.println(q);
-			List<User> users=q.getResultList();
+			HibernateRepository rep=new HibernateRepository();
+			
+			
+//			EntityManager em=EntityManagerService.getEntityManager(0);
+//			em.getTransaction().begin();
+			
+//			javax.persistence.Query q= em.createQuery("Select o from User o");
+//			System.out.println(q);
+			
+		    SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
+		    Session session=sessionFactory.openSession();
+		    List<User> users=session.createQuery("From user").list();
+			
+			System.out.println("total Users:"+users);
 			java.util.Iterator<User> iterator=users.iterator(); 
 			
 			while(iterator.hasNext()){
@@ -138,7 +156,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 				test.genKeyPair();
 				test.encrypt();
 				test.decrypt();
-			} catch (InvalidKeyException e) {
+			} catch (InvalidKeyException e){
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (NoSuchProviderException e) {

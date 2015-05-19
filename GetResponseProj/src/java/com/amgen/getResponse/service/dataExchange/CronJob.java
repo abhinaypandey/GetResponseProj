@@ -79,11 +79,11 @@ public class CronJob {
 		}
 	}
 	
-	public static void main(String arg[]){
-		CronJob cron=new CronJob();
-		cron.configureScheduler();
-		cron.startScheduler();
-	}
+//	public static void main(String arg[]){
+//		CronJob cron=new CronJob();
+//		cron.configureScheduler();
+//		cron.startScheduler();
+//	}
 	
 }
 

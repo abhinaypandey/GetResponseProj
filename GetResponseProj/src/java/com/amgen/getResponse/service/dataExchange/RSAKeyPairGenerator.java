@@ -46,7 +46,7 @@ public class RSAKeyPairGenerator
             secretOut = new ArmoredOutputStream(secretOut);
         }
         
-        
+       
         PGPPublicKey a = (new JcaPGPKeyConverter().getPGPPublicKey(PGPPublicKey.RSA_GENERAL, publicKey, new Date()));
         RSAPrivateCrtKey rsK = (RSAPrivateCrtKey)privateKey;
         RSASecretBCPGKey privPk = new RSASecretBCPGKey(rsK.getPrivateExponent(), rsK.getPrimeP(), rsK.getPrimeQ());

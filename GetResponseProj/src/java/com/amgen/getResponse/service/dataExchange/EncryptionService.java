@@ -27,6 +27,7 @@ public class EncryptionService {
 	private String plainTextFile;
 	private String cipherTextFile;
 	private String decPlainTextFile;
+	private int encryBitLength=1024;
 
 	public EncryptionService(String fileToEncrypt) {
 		// TODO Auto-generated constructor stub
@@ -46,11 +47,11 @@ public class EncryptionService {
 																											
 		Security.addProvider(new BouncyCastleProvider());
 
-		KeyPairGenerator    kpg = KeyPairGenerator.getInstance("RSA", "BC");
+		KeyPairGenerator    kpg = KeyPairGenerator.getInstance("RSA", "BC"); 
 
-		kpg.initialize(1024);
+		kpg.initialize(encryBitLength);
 
-		KeyPair                    kp = kpg.generateKeyPair();
+		KeyPair kp = kpg.generateKeyPair();
 
 		FileOutputStream    out1 = new FileOutputStream(privKeyFile);
 		FileOutputStream    out2 = new FileOutputStream(pubKeyFile);
