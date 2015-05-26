@@ -1,1 +1,0 @@
-UserID | Username | Firstname | Lastname | Email | Phone

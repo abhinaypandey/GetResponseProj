@@ -1,3 +1,0 @@
-UserID | Username | Firstname | Lastname | Email | Phone
-1;abhinay;abhinay;pandey;abhinaya18@gmail.com;2323223
-2;abhinay;abhinay;pandey;abhinaya@gmail.com;232323232323

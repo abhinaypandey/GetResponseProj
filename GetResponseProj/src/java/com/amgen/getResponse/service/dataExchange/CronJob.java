@@ -63,7 +63,6 @@ public class CronJob {
 	protected void startScheduler(){
 		try {
 			sched.start();
-//			System.out.println("Schedular started");
 		} catch (SchedulerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

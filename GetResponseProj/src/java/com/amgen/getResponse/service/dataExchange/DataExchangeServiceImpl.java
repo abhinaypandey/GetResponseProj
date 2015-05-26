@@ -117,67 +117,64 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 //			FileOutputStream f=new FileOutputStream(file);
 
 			PrintWriter pw=new PrintWriter(new BufferedWriter(new FileWriter(file,true)),true);
-			System.out.println("before em");
 			
-			HibernateRepository rep=new HibernateRepository();
+			Repository rep=new HibernateRepository();
 			
+			@SuppressWarnings("unchecked")
+			List<User> users=(List<User>)rep.retrieve(User.class);
 			
-//			EntityManager em=EntityManagerService.getEntityManager(0);
-//			em.getTransaction().begin();
-			
-//			javax.persistence.Query q= em.createQuery("Select o from User o");
-//			System.out.println(q);
-			
-		    SessionFactory sessionFactory=HibernateUtil.getSessionFactory();
-		    Session session=sessionFactory.openSession();
-		    List<User> users=session.createQuery("From user").list();
-			
-			System.out.println("total Users:"+users);
-			java.util.Iterator<User> iterator=users.iterator(); 
-			
-			while(iterator.hasNext()){
-				User user=iterator.next();
-				System.out.println(user.getEmail()+user.getFirst_name());
-				pw.print(user.getId()); pw.print(delimiter);
-				pw.print(user.getUsername());pw.print(delimiter);
-				pw.print(user.getFirst_name());pw.print(delimiter);
-				pw.print(user.getLast_name());pw.print(delimiter);
-				pw.print(user.getEmail());pw.print(delimiter);
-				pw.print(user.getPhone());
-				pw.println("");
-				pw.flush();
+			if(!users.isEmpty()){
+				java.util.Iterator<User> iterator=users.iterator(); 
 				
+				while(iterator.hasNext()){
+					User user=(User)iterator.next();
+					pw.print(user.getId()); pw.print(delimiter);
+					pw.print(user.getUsername());pw.print(delimiter);
+					pw.print(user.getFirst_name());pw.print(delimiter);
+					pw.print(user.getLast_name());pw.print(delimiter);
+					pw.print(user.getEmail());pw.print(delimiter);
+					pw.print(user.getPhone());
+					pw.println("");
+					pw.flush();
+					
+				}
+				
+				/* Calling EncryptionService to handle data encryption and Decryption */
+				try {
+					EncryptionService test=new EncryptionService(file);
+					
+						test.genKeyPair();
+						test.encrypt();
+						test.decrypt();
+					} catch (InvalidKeyException e){
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchProviderException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SignatureException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NoSuchAlgorithmException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (PGPException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						pw.close();
+					}
+					
+					
+					System.out.println("Data encrypted successfully");
+			}
+			else{
+				System.out.println("No users found registered");
 			}
 			
-			/* Calling EncryptionService to handle data encryption and decryption */
-		try {
-			EncryptionService test=new EncryptionService(filePath);
-			
-				test.genKeyPair();
-				test.encrypt();
-				test.decrypt();
-			} catch (InvalidKeyException e){
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchProviderException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SignatureException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchAlgorithmException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (PGPException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			System.out.println("Data encrypted successfully");
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -189,7 +186,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 	}
 	
 	public void DataTransfer() throws Exception{
-			
+		    System.out.println("Data transfer called");
 			DataExchangeServiceImpl dimpl=new DataExchangeServiceImpl();
 			ResourceBundle rc=ResourceBundle.getBundle("properties.delimiter");
 			String delimiter=rc.getString("delimiter");
@@ -200,7 +197,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 //			Pattern pattern=Pattern.compile(regexp);
 	
 			
-			File dir=new File("./User_Files");
+			File dir=new File("User_Files");
 			String latestFile="";
 			File lastModified=dimpl.getLatestFile(dir);
 //			File[] flist=dir.listFiles();
@@ -231,7 +228,7 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 //			}
 			boolean delimiterStatus = dimpl.getDelimiterStatus(lastModified,delimiter);
 			if(delimiterStatus){
-				System.out.println(delimiterStatus);
+				System.out.println("delimiter :  "+delimiterStatus);
 				long timestamp=new Date().getTime();
 				String filePath="./User_Files/userData_"+timestamp+".txt";
 				File headerFile=new File("./User_Files/userDataTemplate.txt");
@@ -247,7 +244,6 @@ public class DataExchangeServiceImpl implements DataExchangeService {
 				
 			}
 			else{
-				System.out.println(delimiterStatus);
 				fetchData(lastModified,lastModified.getAbsolutePath(),delimiter);
 			}
 			

@@ -1,5 +1,6 @@
 package com.amgen.getResponse.service.dataExchange;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -11,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.Security;
 import java.security.SignatureException;
+
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openpgp.PGPException;
 
@@ -29,14 +31,14 @@ public class EncryptionService {
 	private String decPlainTextFile;
 	private int encryBitLength=1024;
 
-	public EncryptionService(String fileToEncrypt) {
+	public EncryptionService(File fileToEncrypt) {
 		// TODO Auto-generated constructor stub
-		pubKeyFile = "./public.dat";
-		privKeyFile = "./private.dat";
+		pubKeyFile = "./User_Files/public.dat";
+		privKeyFile = "./User_Files/private.dat";
 
-		plainTextFile = fileToEncrypt;
-		cipherTextFile = "./cypher-text.dat";
-		decPlainTextFile = "./dec-plain-text.txt";
+		plainTextFile = fileToEncrypt.getAbsolutePath();
+		cipherTextFile = "./User_Files/cypher-text.dat";
+		decPlainTextFile = "./User_Files/dec-plain-text.txt";
 	}
 	
 
@@ -48,7 +50,6 @@ public class EncryptionService {
 		Security.addProvider(new BouncyCastleProvider());
 
 		KeyPairGenerator    kpg = KeyPairGenerator.getInstance("RSA", "BC"); 
-
 		kpg.initialize(encryBitLength);
 
 		KeyPair kp = kpg.generateKeyPair();

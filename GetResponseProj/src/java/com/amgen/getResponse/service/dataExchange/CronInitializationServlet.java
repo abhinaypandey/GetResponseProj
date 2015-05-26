@@ -1,6 +1,7 @@
 package com.amgen.getResponse.service.dataExchange;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
+
 import com.amgen.getResponse.service.dataExchange.CronJob;
 
 /**
@@ -26,6 +28,7 @@ public class CronInitializationServlet extends HttpServlet {
 	
 	public void init() throws ServletException{
 		try{
+			System.out.println("cron schedular started now ");
 			cronJob=new CronJob();
 			cronJob.configureScheduler();
 			cronJob.startScheduler();
@@ -38,12 +41,15 @@ public class CronInitializationServlet extends HttpServlet {
 	}
 	
 	public void destroy() {
+		
 		cronJob.stopScheduler();
 		
 	}
 	
     public CronInitializationServlet() {
+    	
         super();
+        System.out.println("schedular now initialized");
         sched=null;
         cronJob=null;
         // TODO Auto-generated constructor stub

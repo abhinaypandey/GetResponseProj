@@ -165,6 +165,7 @@ public class PgpHelper {
         PGPPublicKey encKey, boolean armor, boolean withIntegrityCheck)
         throws IOException, NoSuchProviderException, PGPException
     {
+    	System.out.println("Encrypting file "+fileName);
     	Security.addProvider(new BouncyCastleProvider());
 
         if (armor) {
